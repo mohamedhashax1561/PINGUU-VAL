@@ -341,9 +341,11 @@ public:
 
 
 template <typename T>
-T read(const uintptr_t ptr) {
-	if (!LI_FN(IsBadReadPtr)(reinterpret_cast<void*>(ptr), sizeof(T)))
-		return *reinterpret_cast<T*>(ptr);
+T read(uintptr_t address)
+{
+	T buffer{ };
+	if (ReadProcessMemory(GetCurrentProcess(), (LPVOID)address, &buffer, sizeof(T), 0))
+		return buffer;
 }
 
 /*template<typename T>
