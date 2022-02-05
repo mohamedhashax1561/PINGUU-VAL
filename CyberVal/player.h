@@ -23,8 +23,8 @@ public:
 			return false;
 		
 		Vector3 temp = Vector3(0, 0, 0);
-		return LineOfSight(pointer::local_player_controller, actor_ptr, &temp, false);	
-		//return RecentlyRendered();
+		//return LineOfSight(pointer::local_player_controller, actor_ptr, &temp, false);	
+		return RecentlyRendered();
 	}
 
 	FINLINE bool IsBot()
