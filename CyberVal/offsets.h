@@ -1,7 +1,7 @@
 namespace Offsets
 {
-	uintptr_t oKey = 0x8FB6978; // 4.02
-	uintptr_t oState = 0x8FB6940; // 4.02
+	uintptr_t oKey = 0x8F66E38; // 4.02
+	uintptr_t oState = 0x8F66E00; // 4.02
 
 	uintptr_t oLevel = 0x38;//ok
 	uintptr_t oGameInstance = 0x1A8;//ok
@@ -32,6 +32,6 @@ namespace Offsets
 	uintptr_t BoneCount = 0x560;
 	uintptr_t last_render_time = 0x350;
 	uintptr_t last_submit_time = 0x358;
-	uintptr_t Inventory = 0x940;
+	uintptr_t Inventory = 0x948;
 	uintptr_t CurrentWeapon = 0x218;
 };
