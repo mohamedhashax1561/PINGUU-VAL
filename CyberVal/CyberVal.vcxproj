@@ -24,7 +24,7 @@
     <ProjectGuid>{a5220e0a-a29f-42a6-8956-5e4ee6381e8a}</ProjectGuid>
     <RootNamespace>CyberVal</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>PinguuVal</ProjectName>
+    <ProjectName>valo</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -84,8 +84,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath);</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath);</LibraryPath>
+    <IncludePath>D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath);C:\Users\qwertz\Desktop\CyberVal-master\CyberVal\gui</IncludePath>
+    <LibraryPath>D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath);C:\Users\qwertz\Desktop\CyberVal-master\CyberVal\lib;C:\Users\qwertz\Desktop\CyberVal-master\CyberVal\libs</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -150,11 +150,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)lib;%(AdditionalIncludeDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib;Wldap32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Ws2_32.lib;Wldap32.lib;glew32s.lib;glfw3_mt.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="buffer.c" />
+    <ClCompile Include="crt.cpp" />
     <ClCompile Include="draw.cpp" />
     <ClCompile Include="hde\hde64.c" />
     <ClCompile Include="hook.c" />
@@ -166,6 +167,7 @@
   <ItemGroup>
     <ClInclude Include="AimAnglesShit.h" />
     <ClInclude Include="buffer.h" />
+    <ClInclude Include="crt.h" />
     <ClInclude Include="defs.h" />
     <ClInclude Include="draw.h" />
     <ClInclude Include="Drawing.h" />
@@ -181,11 +183,20 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="sha_imp.h" />
+    <ClInclude Include="spoof.h" />
     <ClInclude Include="trampoline.h" />
+    <ClInclude Include="utils.h" />
     <ClInclude Include="vectors.h" />
     <ClInclude Include="xor.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <MASM Include="_spoofer_stub.asm" />
+  </ItemGroup>
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  </ImportGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
   </ImportGroup>
 </Project>

@@ -1,5 +1,6 @@
 
 #include <math.h>
+#include "crt.h"
 
 #define M_PI                       3.14159265358979323846f
 
@@ -341,11 +342,9 @@ public:
 
 
 template <typename T>
-T read(uintptr_t address)
-{
-	T buffer{ };
-	if (ReadProcessMemory(GetCurrentProcess(), (LPVOID)address, &buffer, sizeof(T), 0))
-		return buffer;
+T read(const uintptr_t ptr) {
+	if (!LI_FN(IsBadReadPtr)(reinterpret_cast<void*>(ptr), sizeof(T)))
+		return *reinterpret_cast<T*>(ptr);
 }
 
 /*template<typename T>
@@ -396,7 +395,207 @@ D3DMATRIX to_matrix(const Vector3& rotation, const Vector3& origin) {
 	return matrix;
 }
 
+template<class T>
+struct TArray
+{
+	friend struct FString;
 
+public:
+	inline TArray()
+	{
+		Data = nullptr;
+		Count = Max = 0;
+	};
+
+	inline int Num() const
+	{
+		return Count;
+	};
+
+	inline T& operator[](int i)
+	{
+		return Data[i];
+	};
+
+	inline const T& operator[](int i) const
+	{
+		return Data[i];
+	};
+
+	inline bool IsValidIndex(int i) const
+	{
+		return i < Num();
+	}
+
+
+	T* Data;
+private:
+	int32_t Count;
+	int32_t Max;
+};
+
+class FText {
+public:
+	char _padding_[0x28];
+	PWCHAR Name;
+	DWORD Length;
+
+	inline PWCHAR c_wstr() {
+		return Name;
+	}
+};
+
+struct FString : private TArray<wchar_t>
+{
+	inline FString()
+	{
+	};
+
+	FString(const wchar_t* other)
+	{
+		Max = Count = *other ? crt::wcslen(other) + 1 : 0;
+
+		if (Count)
+		{
+			Data = const_cast<wchar_t*>(other);
+		}
+	};
+
+	inline bool IsValid() const
+	{
+		return Data != nullptr;
+	}
+
+	inline const wchar_t* c_str() const
+	{
+		return Data;
+	}
+
+	std::string ToString() const
+	{
+		auto length = std::wcslen(Data);
+
+		std::string str(length, '\0');
+
+		std::use_facet<std::ctype<wchar_t>>(std::locale()).narrow(Data, Data + length, '?', &str[0]);
+
+		return str;
+	}
+};
+
+class UClass {
+public:
+	BYTE _padding_0[0x40];
+	UClass* SuperClass;
+};
+
+class UObject {
+public:
+	PVOID VTableObject;
+	DWORD ObjectFlags;
+	DWORD InternalIndex;
+	UClass* Class;
+	BYTE _padding_0[0x8];
+	UObject* Outer;
+
+	inline BOOLEAN IsA(PVOID parentClass) {
+		for (auto super = this->Class; super; super = super->SuperClass) {
+			if (super == parentClass) {
+				return TRUE;
+			}
+		}
+
+		return FALSE;
+	}
+};
+
+class FUObjectItem {
+public:
+	UObject* Object;
+	DWORD Flags;
+	DWORD ClusterIndex;
+	DWORD SerialNumber;
+	DWORD SerialNumber2;
+};
+
+class TUObjectArray {
+public:
+	FUObjectItem* Objects[9];
+};
+
+class GObjects {
+public:
+	TUObjectArray* ObjectArray;
+	BYTE _padding_0[0xC];
+	DWORD ObjectCount;
+};
+
+__forceinline __int64 decrypt_gobject(DWORD* key)
+{
+	unsigned __int64 v9; // rbx
+	unsigned __int64 v10; // r10
+	unsigned __int64 v11; // rsi
+	unsigned __int64 v12; // r9
+	unsigned __int64 v13; // r10
+	unsigned int v14; // er11
+	unsigned int v15; // er8
+	__int64 v16; // rax
+	unsigned __int64 v17; // rcx
+	unsigned __int64 v18; // rax
+	unsigned __int64 v19; // rdx
+	__int64 v20; // rax
+	unsigned __int64 v21; // rcx
+
+	v9 = (unsigned int)key[30];
+	v10 = 0x2545F4914F6CDD1Di64 * (v9 ^ ((v9 ^ (v9 >> 15)) >> 12) ^ (unsigned int)(key[30] << 25));
+	v11 = v10 % 7;
+	v12 = *(_QWORD*)&key[2 * v11 + 16];
+	v13 = HIDWORD(v10);
+	v14 = (unsigned int)v11 % 7;
+	if (!((unsigned int)v11 % 7))
+	{
+		v12 = ror8(~(unsigned __int64)(unsigned int)(v13 - 1) ^ v12, (unsigned __int8)((unsigned int)v13 % 0x3F) + 1);
+	LABEL_5:
+		v15 = v13 + v11;
+		goto LABEL_6;
+	}
+	if (v14 == 1)
+	{
+		v16 = 2 * ((2 * v12) ^ ((2 * v12) ^ (v12 >> 1)) & 0x5555555555555555i64);
+		v17 = (v16 ^ (v16 ^ (((2 * v12) ^ ((2 * v12) ^ (v12 >> 1)) & 0x5555555555555555i64) >> 1)) & 0x5555555555555555i64) >> 2;
+		v18 = 4
+			* (v16 ^ (v16 ^ (((2 * v12) ^ ((2 * v12) ^ (v12 >> 1)) & 0x5555555555555555i64) >> 1)) & 0x5555555555555555i64);
+		v19 = (16 * (v18 ^ (v18 ^ v17) & 0x3333333333333333i64)) ^ ((16 * (v18 ^ (v18 ^ v17) & 0x3333333333333333i64)) ^ ((v18 ^ (v18 ^ v17) & 0x3333333333333333i64) >> 4)) & 0xF0F0F0F0F0F0F0Fi64;
+		v12 = ror8((v19 << 8) ^ ((v19 << 8) ^ (v19 >> 8)) & 0xFF00FF00FF00FFi64, 32);
+		goto LABEL_5;
+	}
+	if (v14 != 2)
+		goto LABEL_5;
+	v15 = v13 + v11;
+	v12 = (unsigned int)(v13 + v11) + ror8(v12, (unsigned __int8)(((int)v13 + 2 * (int)v11) % 0x3Fu) + 1);
+LABEL_6:
+	if (v14 == 3)
+	{
+		v12 = ror8((2 * v12) ^ ((2 * v12) ^ (v12 >> 1)) & 0x5555555555555555i64, (unsigned __int8)(v15 % 0x3F) + 1);
+	}
+	else if (v14 == 4)
+	{
+		v12 = ~(unsigned __int64)v15 ^ (2 * v12) ^ ((2 * v12) ^ (v12 >> 1)) & 0x5555555555555555i64;
+	}
+	if (v14 == 5)
+	{
+		v12 = ~v12 - v15;
+	}
+	else if (v14 == 6)
+	{
+		v20 = 4 * ((2 * v12) ^ ((2 * v12) ^ (v12 >> 1)) & 0x5555555555555555i64);
+		v21 = (16
+			* (v20 ^ (v20 ^ (((2 * v12) ^ ((2 * v12) ^ (v12 >> 1)) & 0x5555555555555555i64) >> 2)) & 0x3333333333333333i64)) ^ ((16 * (v20 ^ (v20 ^ (((2 * v12) ^ ((2 * v12) ^ (v12 >> 1)) & 0x5555555555555555i64) >> 2)) & 0x3333333333333333i64)) ^ ((v20 ^ (v20 ^ (((2 * v12) ^ ((2 * v12) ^ (v12 >> 1)) & 0x5555555555555555i64) >> 2)) & 0x3333333333333333i64) >> 4)) & 0xF0F0F0F0F0F0F0Fi64;
+		v12 = v15 + ror8((v21 << 8) ^ ((v21 << 8) ^ (v21 >> 8)) & 0xFF00FF00FF00FFi64, 32);
+	}
+
+	return v12 ^ v9;
+}
 
 __forceinline __int64 decrypt_uworld(const uint32_t key, const uintptr_t* state)
 {
@@ -474,7 +673,7 @@ uint64_t ReadWorld()
 	__try
 	{
 		// std::printf("valBase %p \n", valBase);
-		uint64_t key = read<uint64_t>(valBase + Offsets::oKey);
+		uint64_t key = read<uint64_t>(valBase + 0x8F66E38);
 	//	std::printf("key %p \n", key);
 
 #pragma pack(push, 1)
@@ -483,7 +682,7 @@ uint64_t ReadWorld()
 			uint64_t Keys[7];
 		};
 #pragma pack(pop)
-		const auto state = read<State>(valBase + Offsets::oState);
+		const auto state = read<State>(valBase + 0x8F66E00);
 	//	std::printf("state %p \n", state.Keys);
 
 		if (key != 0)

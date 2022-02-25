@@ -41,6 +41,9 @@
     <ClCompile Include="input.cpp">
       <Filter>ShitCPP</Filter>
     </ClCompile>
+    <ClCompile Include="crt.cpp">
+      <Filter>ShitCPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pointer.h">
@@ -101,6 +104,15 @@
       <Filter>Header Files\Bullshit</Filter>
     </ClInclude>
     <ClInclude Include="xor.hpp">
+      <Filter>Header Files\Bullshit</Filter>
+    </ClInclude>
+    <ClInclude Include="crt.h">
+      <Filter>Header Files\Bullshit</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files\Bullshit</Filter>
+    </ClInclude>
+    <ClInclude Include="spoof.h">
       <Filter>Header Files\Bullshit</Filter>
     </ClInclude>
   </ItemGroup>

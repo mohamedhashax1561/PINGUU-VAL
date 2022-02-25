@@ -498,206 +498,207 @@ std::string GetWeaponName(int id)
 	{
 	default: return std::to_string(id);
 		break;
-	case 12956131:  return "Knife";
+	case 12974010:  return "Knife";
 		break;
-	case 12820166:  return "Classic";
+	case 12837525:  return "Classic";
 		break;
-	case 12919640:  return "Shorty";
+	case 12937503:  return "Shorty";
 		break;
-	case 12913101:  return "Sheriff";
+	case 12930964:  return "Sheriff";
 		break;
-	case 12896266:  return "Frenzy";
+	case 12914022:  return "Frenzy";
 		break;
-	case 12908345:  return "Ghost";
+	case 12926216:  return "Ghost";
 		break;
-	case 12948574:  return "Stinger";
+	case 12966437:  return "Stinger";
 		break;
-	case 12941076:  return "Spectre";
+	case 12958939:  return "Spectre";
 		break;
-	case 12890155:  return "Bucky";
+	case 12907906:  return "Bucky";
 		break;
-	case 12886546:  return "Judge";
+	case 12904179:  return "Judge";
 		break;
-	case 12873042:  return "Bulldog";
+	case 12890466:  return "Bulldog";
 		break;
-	case 12930576:  return "Guardian";
+	case 12948439:  return "Guardian";
 		break;
-	case 12877198:  return "Phantom";
+	case 12894734:  return "Phantom";
 		break;
-	case 12865969:  return "Vandal";
+	case 12883393:  return "Vandal";
 		break;
-	case 12937485:  return "Marshall";
+	case 12955348:  return "Marshal";
 		break;
-	case 12921596:  return "AWP";
+	case 12939459:  return "Operator";
 		break;
-	case 12861987:  return "Aries";
+	case 12879411:  return "Ares";
 		break;
-	case 12858759:  return "Odin";
+	case 12876183:  return "Odin";
 		break;
-	case 12770448:  return "Botgun"; //Out
+	case 12837517:  return "Botgun";
 		break;
-	case 12707056: return "Spike"; //Out
+	case 12854284: return "Spike";
 		break;
-		// Abilities (All Out)
-	case 12771357: return "Dark Cover";
+	case 12838426: return "Dark Cover";
 		break;
-	case 12771685: return "Paranoia";
+	case 12838754: return "Paranoia";
 		break;
-	case 12771536: return "Shrouded Step";
+	case 12838605: return "Shrouded Step";
 		break;
-	case 12771834: return "Omen Ult";
+	case 12838903: return "Omen Ult";
 		break;
-	case 12764147: return "Curveball";
+	case 12831216: return "Curveball";
 		break;
-	case 12764365: return "Blaze";
+	case 12831434: return "Blaze";
 		break;
-	case 12764098: return "Hot Hands";
+	case 12831167: return "Hot Hands";
 		break;
-	case 12764562: return "Phoenix Ult";
+	case 12831631: return "Phoenix Ult";
 		break;
-	case 12752353: return "Boom Bot";
+	case 12819422: return "Boom Bot";
 		break;
-	case 12752622: return "Blast Pack";
+	case 12819691: return "Blast Pack";
 		break;
-	case 12752169: return "Paint Shells";
+	case 12819238: return "Paint Shells";
 		break;
-	case 12752791: return "Raze Ult";
+	case 12819860: return "Raze Ult";
 		break;
-	case 12770575: return "Leer";
+	case 12837644: return "Leer";
 		break;
-	case 12771075: return "Reyna Ult";
+	case 12838144: return "Reyna Ult";
 		break;
-	case 12769866: return "Barrier Orb";
+	case 12836935: return "Barrier Orb";
 		break;
-	case 12769711: return "Slow Orb";
+	case 12836780: return "Slow Orb";
 		break;
-	case 12770111: return "Healing Orb";
+	case 12837180: return "Healing Orb";
 		break;
-	case 12770222: return "Sage Revive";
-		break;
-
-	case 12757823: return "Regrowth";
-		break;
-	case 12758255: return "Trailblazer";
-		break;
-	case 12757947: return "Guiding Light";
-		break;
-	case 12758663: return "Skye Ult";
+	case 12837291: return "Sage Revive";
 		break;
 
-	case 12760700: return "Owl Drone";
+	case 12824892: return "Regrowth";
 		break;
-	case 12760276: return "Shock Bolt";
+	case 12825324: return "Trailblazer";
 		break;
-	case 12760761: return "Recon Bolt";
+	case 12825016: return "Guiding Light";
 		break;
-	case 12761025: return "Sova Ult";
-		break;
-	case 12763307: return "Snake Bite";
-		break;
-	case 12762876: return "Toxic Cloud";
-		break;
-	case 12763077: return "Toxic Screen";
-		break;
-	case 12763459: return "Viper Ult";
+	case 12825732: return "Skye Ult";
 		break;
 
-	case 12768838: return "Fakeout";
+	case 12827769: return "Owl Drone";
 		break;
-	case 12769283: return "Blindside";
+	case 12827345: return "Shock Bolt";
 		break;
-	case 12768989: return "Gatecrash";
+	case 12827830: return "Recon Bolt";
 		break;
-	case 12769387: return "Yuro Ult";
+	case 12828094: return "Sova Ult";
 		break;
-
-	case 12765901: return "Astra Form";
+	case 12830376: return "Snake Bite";
 		break;
-	case 12765093: return "Nebula";
+	case 12829945: return "Toxic Cloud";
 		break;
-	case 12764973: return "Gravity Well";
+	case 12830146: return "Toxic Screen";
 		break;
-	case 12765290: return "Nova Pulse";
-		break;
-
-
-	case 12751597: return "Aftershock";
-		break;
-	case 12751852: return "Flashpoint";
-		break;
-	case 12751740: return "Fault Line";
-		break;
-	case 12751955: return "Breach Ult";
+	case 12830528: return "Viper Ult";
 		break;
 
-	case 12766368: return "Stim Beacon";
+	case 12835907: return "Fakeout";
 		break;
-	case 12766500: return "Incendiary";
+	case 12836352: return "Blindside";
 		break;
-	case 12766167: return "Sky Smoke";
+	case 12836058: return "Gatecrash";
 		break;
-	case 12766636: return "Brim Ult";
-		break;
-
-	case 12754209: return "Trademark";
-		break;
-	case 12755121: return "Headhunter";
-		break;
-	case 12754665: return "Redezvous";
-		break;
-	case 12755577: return "Chamber Ult";
+	case 12836456: return "Yuro Ult";
 		break;
 
-	case 12759140: return "Trapwire";
+	case 12832970: return "Astra Fly";
 		break;
-	case 12759035: return "Cyber Cage";
+	case 12832457: return "Astra Form";
 		break;
-	case 12759520: return "Spycam";
+	case 12832162: return "Nebula";
 		break;
-	case 12759528: return "Spycam (Active)";
+	case 12832042: return "Gravity Well";
 		break;
-	case 12759947: return "Cypher Ult";
-		break;
-
-	case 12772269: return "Cloudburst";
-		break;
-	case 22772496: return "Updraft";
-		break;
-	case 12772453: return "Tailwind";
-		break;
-	case 12772540: return "Jett Ult";
+	case 12832359: return "Nova Pulse";
 		break;
 
-	case 12757135: return "Fragment";
+
+	case 12818640: return "Aftershock";
 		break;
-	case 12756739: return "Flashdrive";
+	case 12818895: return "Flashpoint";
 		break;
-	case 12756887: return "Zeropoint";
+	case 12818783: return "Fault Line";
 		break;
-	case 12757281: return "KayO Ult";
+	case 12818998: return "Breach Ult";
 		break;
 
-	case 12761548: return "Nanoswarm";
+	case 12833437: return "Stim Beacon";
 		break;
-	case 12762160: return "Alarmbot";
+	case 12833569: return "Incendiary";
 		break;
-	case 12761753: return "Turret";
+	case 12833236: return "Sky Smoke";
 		break;
-	case 12762428: return "KJ Ult";
-		break;
-
-	case 12767046: return "Fast Lane";
-		break;
-	case 12767357: return "Relay Bolt";
-		break;
-	case 12767202: return "High Gear";
-		break;
-	case 12767678: return "Neon Ult";
+	case 12833705: return "Brim Ult";
 		break;
 
-	case 12787079: return "Defuser";
+	case 12821278: return "Trademark";
 		break;
-	case 12773152: return "Orb";
+	case 12822190: return "Headhunter";
+		break;
+	case 12821734: return "Redezvous";
+		break;
+	case 12822646: return "Chamber Ult";
+		break;
+
+	case 12826209: return "Trapwire";
+		break;
+	case 12826104: return "Cyber Cage";
+		break;
+	case 12826589: return "Spycam";
+		break;
+	case 12826597: return "Spycam (Active)";
+		break;
+	case 12827016: return "Cypher Ult";
+		break;
+
+	case 12839338: return "Cloudburst";
+		break;
+	case 12839565: return "Updraft";
+		break;
+	case 12839522: return "Tailwind";
+		break;
+	case 12839609: return "Jett Ult";
+		break;
+
+	case 12824204: return "Fragment";
+		break;
+	case 12823808: return "Flashdrive";
+		break;
+	case 12823956: return "Zeropoint";
+		break;
+	case 12824350: return "KayO Ult";
+		break;
+
+	case 12828617: return "Nanoswarm";
+		break;
+	case 12829229: return "Alarmbot";
+		break;
+	case 12828822: return "Turret";
+		break;
+	case 12829497: return "KJ Ult";
+		break;
+
+	case 12834115: return "Fast Lane";
+		break;
+	case 12834426: return "Relay Bolt";
+		break;
+	case 12834271: return "High Gear";
+		break;
+	case 12834747: return "Neon Ult";
+		break;
+
+	case 12854307: return "Defuser";
+		break;
+	case 12840221: return "Orb";
 		break;
 
 	case 0: return "AFK";
@@ -707,46 +708,51 @@ std::string GetWeaponName(int id)
 
 std::string GetCharacterName(int id)
 {
-
 	switch (id)
 	{
-	case 12814502: return "ASTRA"; // ok
+	case 12831861: return "ASTRA";
 		break;
-	case 12821874: return "JETT"; // ok
+	case 12839233: return "JETT";
 		break;
-	case 12803805: return "CHAMBER"; // ok
+	case 12821164: return "CHAMBER";
 		break;
-	case 12811102: return "KILLJOY"; // ok
+	case 12828461: return "KILLJOY";
 		break;
-	case 12801807: return "RAZE"; // ok
+	case 12819166: return "RAZE";
 		break;
-	case 12820224: return "REYNA"; // ok
+	case 12837583: return "REYNA";
 		break;
-	case 12819357: return "SAGE"; // ok
+	case 12836716: return "SAGE";
 		break;
-	case 12807475: return "SKYE"; // ok
+	case 12824834: return "SKYE";
 		break;
-	case 12816690: return "NEON"; // ok
+	case 12834049: return "NEON";
 		break;
-	case 12812417: return "VIPER"; // ok
+	case 12829776: return "VIPER";
 		break;
-	case 12801214: return "BREACH"; // ok
+	case 12818547: return "BREACH";
 		break;
-	case 12815819: return "BRIMSTONE"; // ok
+	case 12833178: return "BRIMSTONE";
 		break;
-	case 12808684: return "CYPHER"; // ok
+	case 12826043: return "CYPHER";
 		break;
-	case 12821015: return "OMEN"; // ok
+	case 12838374: return "OMEN";
 		break;
-	case 12813505: return "PHOENIX"; // ok
+	case 12830864: return "PHOENIX";
 		break;
-	case 12809896: return "SOVA"; // ok 
+	case 12827255: return "SOVA";
 		break;
-	case 12818495: return "YORU"; // ok
+	case 12835854: return "YORU";
 		break;
-	case 12806381: return "KAY/O"; // ok
+	case 12823740: return "KAY/O";
 		break;
-	case 12820177: return  "BOT"; // ok
+	case 12837536: return "BOT";
+		break;
+	case 12837942: return "MED BOT";
+		break;
+	case 12837930: return "HARD BOT";
+		break;
+	case 12832898: return "Astral Form";
 		break;
 	default:
 		return std::to_string(id);

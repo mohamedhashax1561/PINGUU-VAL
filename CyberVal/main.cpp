@@ -13,6 +13,8 @@
 
 #include <iostream>
 
+#include "Arduino.h"
+
 #include <d3d11.h>
 #include "include/MinHook.h"
 #pragma comment(lib, "d3d11.lib")
@@ -78,6 +80,8 @@ bool trav = true;
 IDirect3D9Ex* d3d;
 
 #include "ESPLoop.h"
+#include "spoof.h"
+#include "utils.h"
 
 unsigned __stdcall cache(LPVOID lp)
 {
@@ -85,9 +89,10 @@ unsigned __stdcall cache(LPVOID lp)
 
 	while (true)
 	{
+		pointer::uworld = ReadWorld();
+
 		pointer::ulevel = read<uintptr_t>(pointer::uworld + Offsets::oLevel);
-		if (pointer::ulevel == NULL || pointer::game_instance == NULL || pointer::local_player == NULL || pointer::local_player_controller == NULL)
-			pointer::uworld = ReadWorld();
+		
 
 		pointer::game_instance = read<uintptr_t>(pointer::uworld + Offsets::oGameInstance);
 		if (pointer::game_instance == 0) continue;
@@ -153,6 +158,13 @@ unsigned __stdcall cache(LPVOID lp)
 				}
 			}
 		}
+
+		// Val test
+		
+
+		
+
+		//
 
 		int ActorCount = read<int>(pointer::ulevel + 0xA8);
 		for (int i = 0; i < ActorCount; i++)
@@ -347,6 +359,14 @@ void InitializeMenu()
 	menu.AddItem(xorstr_("Dark Mode"), onOff, 2, menu.items[17].value);
 }
 
+__forceinline uint64_t ResolveRelativeAddress(uint64_t Address, int InstructionLength)
+{
+	DWORD Offset = read<DWORD>(Address + (InstructionLength - 4));
+	return Address + InstructionLength + Offset;
+}
+
+
+
 void render()
 {
 	draw.GetDevice()->Clear(NULL, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 0, 0, 0), 1.0f, NULL);
@@ -376,7 +396,6 @@ void render()
 			sprintf(dist_, xorstr_("My Weapon: %s"), pointer::current_weapon);
 			DrawString(50, 50, Red, dist_);
 		}
-
 
 		// Der tolle andere shit
 		// { "5", "10", "15", "20", "25", "30", "45", "60", "90", "120", "180" };
@@ -700,6 +719,10 @@ void ASCDAVSDFASCXD()
 	{
 		LineOfSight = reinterpret_cast<decltype(LineOfSight)>(valBase + 0x4B39410);
 
+	//	auto addr = utils::FindPattern("4C 89 ? ? ? 4C 8D 0D ? ? ? ? 4C 89 ? ? ? 4C 8D 05 ? ? ? ? 48 8D 15 ? ? ? ?");
+
+	//	UINT64 resolvedAddress = *reinterpret_cast<UINT64*>((addr + 24) + *reinterpret_cast<int*>(addr + 20));
+
 		//  Lala(xorstr_("qwerwefv"));
 		_beginthreadex(0, 0, MainLoop, 0, 0, 0);
 		_beginthreadex(0, 0, CheckLoop, 0, 0, 0);
@@ -715,6 +738,8 @@ bool __stdcall DllMain(HINSTANCE hModule, DWORD dwAttached, LPVOID lpvReserved)
 
 		//DiscordPresentDataPtr = (uintptr_t)GetModuleHandleA("DiscordHook64.dll") + 0x1B3080;
 		//DiscordPresent = InterlockedExchangePointer((volatile PVOID*)DiscordPresentDataPtr, PresentHook);
+
+		
 
 		CloseHandle(hModule);
 	}
