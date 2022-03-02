@@ -336,119 +336,10 @@ typedef LONG(WINAPI* RealNtFlushInstructionCache)(HANDLE ProcessHandle, PVOID Ba
 
 RealNtFlushInstructionCache NewNtFlushInstructionCache = NULL;
 //===========================================================================
-typedef struct _PEB_LDR_DATA {
-	UINT8 _PADDING_[12];
-	LIST_ENTRY InLoadOrderModuleList;
-	LIST_ENTRY InMemoryOrderModuleList;
-	LIST_ENTRY InInitializationOrderModuleList;
-} PEB_LDR_DATA, * PPEB_LDR_DATA;
 
-typedef struct _PEB {
-#ifdef _WIN64
-	UINT8 _PADDING_[24];
-#else
-	UINT8 _PADDING_[12];
-#endif
-	PEB_LDR_DATA* Ldr;
-} PEB, * PPEB;
 
-typedef struct _LDR_DATA_TABLE_ENTRY {
-	LIST_ENTRY InLoadOrderLinks;
-	LIST_ENTRY InMemoryOrderLinks;
-	LIST_ENTRY InInitializationOrderLinks;
-	VOID* DllBase;
-} LDR_DATA_TABLE_ENTRY, * PLDR_DATA_TABLE_ENTRY;
 
-typedef struct _UNLINKED_MODULE
-{
-	HMODULE hModule;
-	PLIST_ENTRY RealInLoadOrderLinks;
-	PLIST_ENTRY RealInMemoryOrderLinks;
-	PLIST_ENTRY RealInInitializationOrderLinks;
-	PLDR_DATA_TABLE_ENTRY Entry;
-} UNLINKED_MODULE;
 
-#define UNLINK(x)					\
-	(x).Flink->Blink = (x).Blink;	\
-	(x).Blink->Flink = (x).Flink;
-
-#define RELINK(x, real)			\
-	(x).Flink->Blink = (real);	\
-	(x).Blink->Flink = (real);	\
-	(real)->Blink = (x).Blink;	\
-	(real)->Flink = (x).Flink;
-
-std::vector<UNLINKED_MODULE> UnlinkedModules;
-
-struct FindModuleHandle
-{
-	HMODULE m_hModule;
-	FindModuleHandle(HMODULE hModule) : m_hModule(hModule)
-	{
-	}
-	bool operator() (UNLINKED_MODULE const& Module) const
-	{
-		return (Module.hModule == m_hModule);
-	}
-};
-
-void RelinkModuleToPEB(HMODULE hModule)
-{
-	std::vector<UNLINKED_MODULE>::iterator it = std::find_if(UnlinkedModules.begin(), UnlinkedModules.end(), FindModuleHandle(hModule));
-
-	if (it == UnlinkedModules.end())
-	{
-		//DBGOUT(TEXT("Module Not Unlinked Yet!"));
-		return;
-	}
-
-	RELINK((*it).Entry->InLoadOrderLinks, (*it).RealInLoadOrderLinks);
-	RELINK((*it).Entry->InInitializationOrderLinks, (*it).RealInInitializationOrderLinks);
-	RELINK((*it).Entry->InMemoryOrderLinks, (*it).RealInMemoryOrderLinks);
-	UnlinkedModules.erase(it);
-}
-
-void UnlinkModuleFromPEB(HMODULE hModule)
-{
-	std::vector<UNLINKED_MODULE>::iterator it = std::find_if(UnlinkedModules.begin(), UnlinkedModules.end(), FindModuleHandle(hModule));
-	if (it != UnlinkedModules.end())
-	{
-		//DBGOUT(TEXT("Module Already Unlinked!"));
-		return;
-	}
-
-#ifdef _WIN64
-	PPEB pPEB = (PPEB)__readgsqword(0x60);
-#else
-	PPEB pPEB = (PPEB)__readfsdword(0x30);
-#endif
-
-	PLIST_ENTRY CurrentEntry = pPEB->Ldr->InLoadOrderModuleList.Flink;
-	PLDR_DATA_TABLE_ENTRY Current = NULL;
-
-	while (CurrentEntry != &pPEB->Ldr->InLoadOrderModuleList && CurrentEntry != NULL)
-	{
-		Current = CONTAINING_RECORD(CurrentEntry, LDR_DATA_TABLE_ENTRY, InLoadOrderLinks);
-		if (Current->DllBase == hModule)
-		{
-			UNLINKED_MODULE CurrentModule = { 0 };
-			CurrentModule.hModule = hModule;
-			CurrentModule.RealInLoadOrderLinks = Current->InLoadOrderLinks.Blink->Flink;
-			CurrentModule.RealInInitializationOrderLinks = Current->InInitializationOrderLinks.Blink->Flink;
-			CurrentModule.RealInMemoryOrderLinks = Current->InMemoryOrderLinks.Blink->Flink;
-			CurrentModule.Entry = Current;
-			UnlinkedModules.push_back(CurrentModule);
-
-			UNLINK(Current->InLoadOrderLinks);
-			UNLINK(Current->InInitializationOrderLinks);
-			UNLINK(Current->InMemoryOrderLinks);
-
-			break;
-		}
-
-		CurrentEntry = CurrentEntry->Flink;
-	}
-}
 
 bool HideThread(HANDLE hThread)
 {
@@ -498,207 +389,207 @@ std::string GetWeaponName(int id)
 	{
 	default: return std::to_string(id);
 		break;
-	case 12974010:  return "Knife";
+	case 13189488:  return "Knife";
 		break;
-	case 12837525:  return "Classic";
+	case 13046148:  return "Classic";
 		break;
-	case 12937503:  return "Shorty";
+	case 13150386:  return "Shorty";
 		break;
-	case 12930964:  return "Sheriff";
+	case 13143847:  return "Sheriff";
 		break;
-	case 12914022:  return "Frenzy";
+	case 13125721:  return "Frenzy";
 		break;
-	case 12926216:  return "Ghost";
+	case 13138332:  return "Ghost";
 		break;
-	case 12966437:  return "Stinger";
+	case 13181514:  return "Stinger";
 		break;
-	case 12958939:  return "Spectre";
+	case 13173864:  return "Spectre";
 		break;
-	case 12907906:  return "Bucky";
+	case 13119610:  return "Bucky";
 		break;
-	case 12904179:  return "Judge";
+	case 13115571:  return "Judge";
 		break;
-	case 12890466:  return "Bulldog";
+	case 13101466:  return "Bulldog";
 		break;
-	case 12948439:  return "Guardian";
+	case 13161746:  return "Guardian";
 		break;
-	case 12894734:  return "Phantom";
+	case 13105985:  return "Phantom";
 		break;
-	case 12883393:  return "Vandal";
+	case 13093635:  return "Vandal";
 		break;
-	case 12955348:  return "Marshal";
+	case 13169314:  return "Marshal";
 		break;
-	case 12939459:  return "Operator";
+	case 13152342:  return "Operator";
 		break;
-	case 12879411:  return "Ares";
+	case 13089569:  return "Ares";
 		break;
-	case 12876183:  return "Odin";
+	case 13086236:  return "Odin";
 		break;
-	case 12837517:  return "Botgun";
+	case 13046140:  return "Botgun";
 		break;
-	case 12854284: return "Spike";
+	case 13062907: return "Spike";
 		break;
-	case 12838426: return "Dark Cover";
+	case 13047049: return "Dark Cover";
 		break;
-	case 12838754: return "Paranoia";
+	case 13047377: return "Paranoia";
 		break;
-	case 12838605: return "Shrouded Step";
+	case 13047228: return "Shrouded Step";
 		break;
-	case 12838903: return "Omen Ult";
+	case 13047526: return "Omen Ult";
 		break;
-	case 12831216: return "Curveball";
+	case 13039839: return "Curveball";
 		break;
-	case 12831434: return "Blaze";
+	case 13040057: return "Blaze";
 		break;
-	case 12831167: return "Hot Hands";
+	case 13039790: return "Hot Hands";
 		break;
-	case 12831631: return "Phoenix Ult";
+	case 13040254: return "Phoenix Ult";
 		break;
-	case 12819422: return "Boom Bot";
+	case 13028045: return "Boom Bot";
 		break;
-	case 12819691: return "Blast Pack";
+	case 13028314: return "Blast Pack";
 		break;
-	case 12819238: return "Paint Shells";
+	case 13027861: return "Paint Shells";
 		break;
-	case 12819860: return "Raze Ult";
+	case 13028483: return "Raze Ult";
 		break;
-	case 12837644: return "Leer";
+	case 13046267: return "Leer";
 		break;
-	case 12838144: return "Reyna Ult";
+	case 13046767: return "Reyna Ult";
 		break;
-	case 12836935: return "Barrier Orb";
+	case 13045558: return "Barrier Orb";
 		break;
-	case 12836780: return "Slow Orb";
+	case 13045403: return "Slow Orb";
 		break;
-	case 12837180: return "Healing Orb";
+	case 13045803: return "Healing Orb";
 		break;
-	case 12837291: return "Sage Revive";
-		break;
-
-	case 12824892: return "Regrowth";
-		break;
-	case 12825324: return "Trailblazer";
-		break;
-	case 12825016: return "Guiding Light";
-		break;
-	case 12825732: return "Skye Ult";
+	case 13045914: return "Sage Revive";
 		break;
 
-	case 12827769: return "Owl Drone";
+	case 13033515: return "Regrowth";
 		break;
-	case 12827345: return "Shock Bolt";
+	case 13033947: return "Trailblazer";
 		break;
-	case 12827830: return "Recon Bolt";
+	case 13033639: return "Guiding Light";
 		break;
-	case 12828094: return "Sova Ult";
-		break;
-	case 12830376: return "Snake Bite";
-		break;
-	case 12829945: return "Toxic Cloud";
-		break;
-	case 12830146: return "Toxic Screen";
-		break;
-	case 12830528: return "Viper Ult";
+	case 13034355: return "Skye Ult";
 		break;
 
-	case 12835907: return "Fakeout";
+	case 13036392: return "Owl Drone";
 		break;
-	case 12836352: return "Blindside";
+	case 13035968: return "Shock Bolt";
 		break;
-	case 12836058: return "Gatecrash";
+	case 13036453: return "Recon Bolt";
 		break;
-	case 12836456: return "Yuro Ult";
+	case 13036717: return "Sova Ult";
 		break;
-
-	case 12832970: return "Astra Fly";
+	case 13038999: return "Snake Bite";
 		break;
-	case 12832457: return "Astra Form";
+	case 13038568: return "Toxic Cloud";
 		break;
-	case 12832162: return "Nebula";
+	case 13038769: return "Toxic Screen";
 		break;
-	case 12832042: return "Gravity Well";
-		break;
-	case 12832359: return "Nova Pulse";
+	case 13039151: return "Viper Ult";
 		break;
 
-
-	case 12818640: return "Aftershock";
+	case 13044530: return "Fakeout";
 		break;
-	case 12818895: return "Flashpoint";
+	case 13044975: return "Blindside";
 		break;
-	case 12818783: return "Fault Line";
+	case 13044681: return "Gatecrash";
 		break;
-	case 12818998: return "Breach Ult";
-		break;
-
-	case 12833437: return "Stim Beacon";
-		break;
-	case 12833569: return "Incendiary";
-		break;
-	case 12833236: return "Sky Smoke";
-		break;
-	case 12833705: return "Brim Ult";
+	case 13045079: return "Yuro Ult";
 		break;
 
-	case 12821278: return "Trademark";
+	case 13041593: return "Astra Fly";
 		break;
-	case 12822190: return "Headhunter";
+	case 13041080: return "Astra Form";
 		break;
-	case 12821734: return "Redezvous";
+	case 13040785: return "Nebula";
 		break;
-	case 12822646: return "Chamber Ult";
+	case 13040665: return "Gravity Well";
 		break;
-
-	case 12826209: return "Trapwire";
-		break;
-	case 12826104: return "Cyber Cage";
-		break;
-	case 12826589: return "Spycam";
-		break;
-	case 12826597: return "Spycam (Active)";
-		break;
-	case 12827016: return "Cypher Ult";
+	case 13040982: return "Nova Pulse";
 		break;
 
-	case 12839338: return "Cloudburst";
+
+	case 13027263: return "Aftershock";
 		break;
-	case 12839565: return "Updraft";
+	case 13027518: return "Flashpoint";
 		break;
-	case 12839522: return "Tailwind";
+	case 13027406: return "Fault Line";
 		break;
-	case 12839609: return "Jett Ult";
+	case 13027621: return "Breach Ult";
 		break;
 
-	case 12824204: return "Fragment";
+	case 13042060: return "Stim Beacon";
 		break;
-	case 12823808: return "Flashdrive";
+	case 13042192: return "Incendiary";
 		break;
-	case 12823956: return "Zeropoint";
+	case 13041859: return "Sky Smoke";
 		break;
-	case 12824350: return "KayO Ult";
-		break;
-
-	case 12828617: return "Nanoswarm";
-		break;
-	case 12829229: return "Alarmbot";
-		break;
-	case 12828822: return "Turret";
-		break;
-	case 12829497: return "KJ Ult";
+	case 13042328: return "Brim Ult";
 		break;
 
-	case 12834115: return "Fast Lane";
+	case 13029901: return "Trademark";
 		break;
-	case 12834426: return "Relay Bolt";
+	case 13030813: return "Headhunter";
 		break;
-	case 12834271: return "High Gear";
+	case 13030357: return "Redezvous";
 		break;
-	case 12834747: return "Neon Ult";
+	case 13031269: return "Chamber Ult";
 		break;
 
-	case 12854307: return "Defuser";
+	case 13034832: return "Trapwire";
 		break;
-	case 12840221: return "Orb";
+	case 13034727: return "Cyber Cage";
+		break;
+	case 13035212: return "Spycam";
+		break;
+	case 13035220: return "Spycam (Active)";
+		break;
+	case 13035639: return "Cypher Ult";
+		break;
+
+	case 13047961: return "Cloudburst";
+		break;
+	case 13048188: return "Updraft";
+		break;
+	case 13048145: return "Tailwind";
+		break;
+	case 13048232: return "Jett Ult";
+		break;
+
+	case 13032827: return "Fragment";
+		break;
+	case 13032431: return "Flashdrive";
+		break;
+	case 13032579: return "Zeropoint";
+		break;
+	case 13032973: return "KayO Ult";
+		break;
+
+	case 13037240: return "Nanoswarm";
+		break;
+	case 13037852: return "Alarmbot";
+		break;
+	case 13037445: return "Turret";
+		break;
+	case 13038120: return "KJ Ult";
+		break;
+
+	case 13042738: return "Fast Lane";
+		break;
+	case 13043049: return "Relay Bolt";
+		break;
+	case 13042894: return "High Gear";
+		break;
+	case 13043370: return "Neon Ult";
+		break;
+
+	case 13062930: return "Defuser";
+		break;
+	case 13048844: return "Orb";
 		break;
 
 	case 0: return "AFK";
@@ -710,49 +601,49 @@ std::string GetCharacterName(int id)
 {
 	switch (id)
 	{
-	case 12831861: return "ASTRA";
+	case 13040168: return "ASTRA";
 		break;
-	case 12839233: return "JETT";
+	case 13047856: return "JETT";
 		break;
-	case 12821164: return "CHAMBER";
+	case 13029446: return "CHAMBER";
 		break;
-	case 12828461: return "KILLJOY";
+	case 13036743: return "KILLJOY";
 		break;
-	case 12819166: return "RAZE";
+	case 13027404: return "RAZE";
 		break;
-	case 12837583: return "REYNA";
+	case 13046206: return "REYNA";
 		break;
-	case 12836716: return "SAGE";
+	case 13045339: return "SAGE";
 		break;
-	case 12824834: return "SKYE";
+	case 13033116: return "SKYE";
 		break;
-	case 12834049: return "NEON";
+	case 13042446: return "NEON";
 		break;
-	case 12829776: return "VIPER";
+	case 13038058: return "VIPER";
 		break;
-	case 12818547: return "BREACH";
+	case 13026811: return "BREACH";
 		break;
-	case 12833178: return "BRIMSTONE";
+	case 13041531: return "BRIMSTONE";
 		break;
-	case 12826043: return "CYPHER";
+	case 13034325: return "CYPHER";
 		break;
-	case 12838374: return "OMEN";
+	case 13046997: return "OMEN";
 		break;
-	case 12830864: return "PHOENIX";
+	case 13039171: return "PHOENIX";
 		break;
-	case 12827255: return "SOVA";
+	case 13035537: return "SOVA";
 		break;
-	case 12835854: return "YORU";
+	case 13044267: return "YORU";
 		break;
-	case 12823740: return "KAY/O";
+	case 13032022: return "KAY/O";
 		break;
-	case 12837536: return "BOT";
+	case 13046159: return "BOT";
 		break;
-	case 12837942: return "MED BOT";
+	case 13046565: return "MED BOT";
 		break;
-	case 12837930: return "HARD BOT";
+	case 13046553: return "HARD BOT";
 		break;
-	case 12832898: return "Astral Form";
+	case 13041521: return "Astral Form";
 		break;
 	default:
 		return std::to_string(id);
