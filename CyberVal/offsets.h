@@ -31,4 +31,7 @@ namespace Offsets
 	uintptr_t last_submit_time = 0x358;
 	uintptr_t Inventory = 0x948;
 	uintptr_t CurrentWeapon = 0x218;
+
+	uintptr_t OFF_WEAPONMESH1P = 0xc30;
+	uintptr_t OFF_OVERRIDEMATERIALS = 0x4f8;
 };
