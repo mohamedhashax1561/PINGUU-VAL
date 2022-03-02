@@ -157,14 +157,7 @@ unsigned __stdcall cache(LPVOID lp)
 					pointer::current_weapon = "Error";
 				}
 			}
-		}
-
-		// Val test
-		
-
-		
-
-		//
+		}		
 
 		int ActorCount = read<int>(pointer::ulevel + 0xA8);
 		for (int i = 0; i < ActorCount; i++)
@@ -247,7 +240,7 @@ unsigned __stdcall cache(LPVOID lp)
 				}
 				else
 				{
-					if (obj_id == 12922391 && UniqueId == 17694977) // Spike
+					if (obj_id == 13206065 && UniqueId == 17694977) // Spike
 					{						
 						valEntity.actor_ptr = Actor;
 						valEntity.actor_type = sSpike;
