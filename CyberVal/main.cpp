@@ -717,7 +717,7 @@ void ASCDAVSDFASCXD()
 	// Lala(xorstr_("qwerwefv"));
 	if (initD3D(MyWnd))
 	{
-		LineOfSight = reinterpret_cast<decltype(LineOfSight)>(valBase + 0x4B39410);
+		LineOfSight = reinterpret_cast<decltype(LineOfSight)>(valBase + 0x4694F60);
 
 	//	auto addr = utils::FindPattern("4C 89 ? ? ? 4C 8D 0D ? ? ? ? 4C 89 ? ? ? 4C 8D 05 ? ? ? ? 48 8D 15 ? ? ? ?");
 
