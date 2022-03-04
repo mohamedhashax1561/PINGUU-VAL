@@ -710,7 +710,7 @@ void ASCDAVSDFASCXD()
 	// Lala(xorstr_("qwerwefv"));
 	if (initD3D(MyWnd))
 	{
-		LineOfSight = reinterpret_cast<decltype(LineOfSight)>(valBase + 0x4694F60);
+		LineOfSight = reinterpret_cast<decltype(LineOfSight)>(valBase + 0x482DD70); // 0x4694F60
 
 		//  Lala(xorstr_("qwerwefv"));
 		_beginthreadex(0, 0, MainLoop, 0, 0, 0);
