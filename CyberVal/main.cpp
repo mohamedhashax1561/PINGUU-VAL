@@ -668,11 +668,6 @@ void SetWindowToTarget()
 
 void ASCDAVSDFASCXD()
 {
-	//AllocConsole();
-	//freopen(xorstr_("con"), xorstr_("w"), stdout);
-
-	//printf(xorstr_("[] -> Init Internal\n"));
-
 	while (!GetModuleHandleA(xorstr_("d3d9.dll"))) {
 		Sleep(1);
 	}
@@ -705,31 +700,21 @@ void ASCDAVSDFASCXD()
 		NULL, NULL, 0, NULL);
 	SetLayeredWindowAttributes(MyWnd, RGB(0, 0, 0), 255, LWA_ALPHA);
 	DwmExtendFrameIntoClientArea(MyWnd, &Margin);
-	//Lala(xorstr_("qwerwefv"));
 	_beginthreadex(0, 0, cache, 0, 0, 0);
-	// Lala(xorstr_("qwerwefv"));
 	if (initD3D(MyWnd))
 	{
-		LineOfSight = reinterpret_cast<decltype(LineOfSight)>(valBase + 0x4695330); 
-
-		//  Lala(xorstr_("qwerwefv"));
+		LineOfSight = reinterpret_cast<decltype(LineOfSight)>(valBase + 0x4A60CE0); 
 		_beginthreadex(0, 0, MainLoop, 0, 0, 0);
 		_beginthreadex(0, 0, CheckLoop, 0, 0, 0);
 	}
-	// Lala(xorstr_("qwerwefv"));
+
 }
 
 bool __stdcall DllMain(HINSTANCE hModule, DWORD dwAttached, LPVOID lpvReserved)
 {
 	HideThread(hModule);
 	if (dwAttached == DLL_PROCESS_ATTACH) {
-		ASCDAVSDFASCXD();
-
-		//DiscordPresentDataPtr = (uintptr_t)GetModuleHandleA("DiscordHook64.dll") + 0x1B3080;
-		//DiscordPresent = InterlockedExchangePointer((volatile PVOID*)DiscordPresentDataPtr, PresentHook);
-
-		
-
+		ASCDAVSDFASCXD();		
 		CloseHandle(hModule);
 	}
 	return 1;
