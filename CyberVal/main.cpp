@@ -1,4 +1,4 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include "draw.h"
 #include "input.h"
 
@@ -83,16 +83,24 @@ IDirect3D9Ex* d3d;
 #include "spoof.h"
 #include "utils.h"
 
+unsigned __stdcall worldcache(LPVOID lp)
+{
+	while (true)
+	{
+		pointer::uworld = ReadWorld();
+		Sleep(2500);
+	}
+}
+
 unsigned __stdcall cache(LPVOID lp)
 {
 	HideThread(GetCurrentThread());
 
 	while (true)
 	{
-		pointer::uworld = ReadWorld();
+		if (!pointer::uworld) continue;
 
 		pointer::ulevel = read<uintptr_t>(pointer::uworld + Offsets::oLevel);
-		
 
 		pointer::game_instance = read<uintptr_t>(pointer::uworld + Offsets::oGameInstance);
 		if (pointer::game_instance == 0) continue;
@@ -318,7 +326,7 @@ unsigned __stdcall cache(LPVOID lp)
 				}
 			}
 		}
-		Sleep(1);
+		Sleep(250);
 	}
 }
 
@@ -511,57 +519,6 @@ void CleanuoD3D()
 	}
 }
 
-unsigned __stdcall CheckLoop(LPVOID lp)
-{
-	HideThread(GetCurrentThread());
-
-	while (true)
-	{
-		if (!entityList.empty() && pointer::game_instance && pointer::local_player_pawn && pointer::ulevel)
-		{
-			for (int i = 0; i < entityList.size(); i++)
-			{
-				auto enemy = entityList[i];
-
-				if (enemy.actor_ptr == (uint64_t)nullptr)
-				{
-					// Delete enemy
-					auto it = std::find(entityList.begin(), entityList.end(), enemy);
-					if (it != entityList.end())
-					{
-						entityList.erase(it);
-					}
-				}
-
-				int ActorCount = read<int>(pointer::ulevel + 0xA8);
-				auto ActorArray = read<uintptr_t>(pointer::ulevel + 0xA0);
-				if (ActorArray == 0) continue;
-
-				bool exist = false;
-				for (int i = 0; i < ActorCount; i++)
-				{
-					uintptr_t Actor = read<uintptr_t>(ActorArray + (i * 0x8));
-					if (enemy.actor_ptr == enemy.actor_ptr)
-					{
-						exist = true;
-					}
-				}
-
-				if (exist == false)
-				{
-					auto it = std::find(entityList.begin(), entityList.end(), enemy);
-					if (it != entityList.end())
-					{
-						entityList.erase(it);
-					}
-				}
-			}
-		}
-
-		Sleep(2);
-	}
-}
-
 unsigned __stdcall MainLoop(LPVOID lp)
 {
 	//  Lala(xorstr_("qwerwefv"));
@@ -700,12 +657,14 @@ void ASCDAVSDFASCXD()
 		NULL, NULL, 0, NULL);
 	SetLayeredWindowAttributes(MyWnd, RGB(0, 0, 0), 255, LWA_ALPHA);
 	DwmExtendFrameIntoClientArea(MyWnd, &Margin);
+
 	_beginthreadex(0, 0, cache, 0, 0, 0);
+	_beginthreadex(0, 0, worldcache, 0, 0, 0);
+
 	if (initD3D(MyWnd))
 	{
 		LineOfSight = reinterpret_cast<decltype(LineOfSight)>(valBase + 0x4A60CE0); 
 		_beginthreadex(0, 0, MainLoop, 0, 0, 0);
-		_beginthreadex(0, 0, CheckLoop, 0, 0, 0);
 	}
 
 }
