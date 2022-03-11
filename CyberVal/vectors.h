@@ -340,19 +340,12 @@ public:
 	float Fov; //0x11C8 
 }; 
 
-
-template <typename T>
-T read(const uintptr_t ptr) {
-	if (!LI_FN(IsBadReadPtr)(reinterpret_cast<void*>(ptr), sizeof(T)))
-		return *reinterpret_cast<T*>(ptr);
-}
-
-/*template<typename T>
-bool write(uintptr_t address, T* buffer, SIZE_T sizeh)
+template<class T>
+T read(uintptr_t dwPtr)
 {
-	if (address > 0x7FFFFFFFFFFF || address < 1) return 0;
-	WriteProcessMemory(GetCurrentProcess(), (LPVOID)address, buffer, sizeh, 0);
-}*/
+	if (!IsBadReadPtr((void*)dwPtr, sizeof(T)))
+		return *(T*)dwPtr;	
+}
 
 CameraStruct GetCameraCache()
 {
