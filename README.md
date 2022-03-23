@@ -10,7 +10,7 @@ If you have questions, just use the Issues Page.
 
 I update the offsets here when I have time and feel like it. The current version is tested on Valorant 4.01...
 
-Source is up2date (03/08/2022) - Status: Working
+Source is should be updated (03/23/2022) - Status: Not tested
 
 
 ## Contributing
