@@ -663,7 +663,7 @@ void ASCDAVSDFASCXD()
 
 	if (initD3D(MyWnd))
 	{
-		LineOfSight = reinterpret_cast<decltype(LineOfSight)>(valBase + 0x4A60CE0); 
+		LineOfSight = reinterpret_cast<decltype(LineOfSight)>(valBase + 0x4AB2B80); 
 		_beginthreadex(0, 0, MainLoop, 0, 0, 0);
 	}
 
