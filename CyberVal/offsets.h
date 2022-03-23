@@ -17,7 +17,7 @@ namespace Offsets
 	uintptr_t Ping = 0x3B8;
 	uintptr_t TeamComponent = 0x5A0;//ok
 	uintptr_t Team = 0xF8;//ok
-	uintptr_t DamageHandler = 0x9A0;//ok
+	uintptr_t DamageHandler = 0x9A8;//ok
 	uintptr_t Health = 0x1B0;
 	uintptr_t Mesh = 0x410 + 0x20;//ok
 	uintptr_t StaticMesh = 0x558; //0x518;
