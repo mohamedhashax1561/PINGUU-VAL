@@ -340,11 +340,10 @@ public:
 	float Fov; //0x11C8 
 }; 
 
-template<class T>
-T read(uintptr_t dwPtr)
-{
-	if (!IsBadReadPtr((void*)dwPtr, sizeof(T)))
-		return *(T*)dwPtr;	
+template <typename T>
+T read(const uintptr_t ptr) { // fix for crash...
+	if (!IsBadReadPtr((void*)ptr, sizeof(T)))
+		return *reinterpret_cast<T*>(ptr);
 }
 
 CameraStruct GetCameraCache()
