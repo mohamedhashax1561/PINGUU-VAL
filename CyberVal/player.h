@@ -98,7 +98,7 @@ public:
 
 	FINLINE bool IsFemale()
 	{
-		if (bone_count == 99) return true;
+		if (bone_count == 102) return true;
 		return false;
 	}
 
