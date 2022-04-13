@@ -8,9 +8,9 @@ If you have questions, just use the Issues Page.
 
 # Offsets outdated?
 
-I update the offsets here when I have time and feel like it. The current version is tested on Valorant 4.04...
+I update the offsets here when I have time and feel like it.
 
-Source should be updated (03/23/2022) - Status: Not tested
+Offsets should be updated (04/13/2022) 4.07 - Status: Not tested
 
 
 ## Contributing
